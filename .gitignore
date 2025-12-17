@@ -1,0 +1,11 @@
+# IntelliJ
+**/.idea/
+*.iml
+**/out/
+
+# Java build output
+**/target/
+**/build/
+
+# OS junk
+.DS_Store
