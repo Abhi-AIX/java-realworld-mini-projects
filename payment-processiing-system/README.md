@@ -7,7 +7,79 @@ Checklist
 
 Project summary
 
-A small Java Maven demo that models a simple payment processing flow and refund capability. It demonstrates clean OOP, the Template Method and Strategy patterns, constructor injection for testability, and small, focused classes to represent payment processors and a checkout service.
+A small Java Maven demo that models a simple payment processing flow and refund capability. Built as a learning exercise to master **OOP principles** and **SOLID principles**, it demonstrates clean object-oriented design, the Template Method and Strategy patterns, constructor injection for testability, and small, focused classes to represent payment processors and a checkout service.
+
+---
+
+## OOP Principles Explained (with project examples)
+
+### 1. Encapsulation
+Hide internal state and expose behavior through methods. Keep fields private and provide controlled access.
+
+**In this project:**
+- `CheckoutService` keeps its `paymentProcessor` field private; callers interact only via `checkout(amount)`.
+- Processors encapsulate payment logic; clients don't need to know internal steps.
+
+### 2. Abstraction
+Expose only essential details; hide complex implementation behind simple interfaces.
+
+**In this project:**
+- `PaymentProcessor` interface abstracts what a processor does (`processPayment`) without revealing how.
+- `CheckoutService` depends on the abstraction, not on concrete processors.
+
+### 3. Inheritance
+Create new classes based on existing ones to reuse and extend behavior.
+
+**In this project:**
+- `CardPaymentProcessor` and `UpiPaymentProcessor` extend `AbstractPaymentProcessor`, inheriting validation and logging logic while providing their own `executePayment` implementations.
+
+### 4. Polymorphism
+Use a single interface to represent different underlying forms (classes). Code written against a base type works with any subtype.
+
+**In this project:**
+- `CheckoutService` works with any `PaymentProcessor` implementation. At runtime, you can inject `CardPaymentProcessor` or `UpiPaymentProcessor` without changing service code.
+- In `Main`, a `PaymentProcessor` reference is checked with `instanceof Refundable` to call refund only when supported.
+
+---
+
+## SOLID Principles Explained (with project examples)
+
+### S — Single Responsibility Principle (SRP)
+A class should have only one reason to change — one job.
+
+**In this project:**
+- `CheckoutService` handles checkout orchestration only.
+- `CardPaymentProcessor` handles card payment execution only.
+- `AbstractPaymentProcessor` handles the shared template workflow only.
+
+### O — Open/Closed Principle (OCP)
+Classes should be open for extension but closed for modification. Add new behavior by extending, not by changing existing code.
+
+**In this project:**
+- To add a new payment method (e.g., PayPal), create a new class extending `AbstractPaymentProcessor`. No changes needed in `CheckoutService` or existing processors.
+
+### L — Liskov Substitution Principle (LSP)
+Subtypes must be substitutable for their base types without breaking the program.
+
+**In this project:**
+- `CardPaymentProcessor` and `UpiPaymentProcessor` can replace `PaymentProcessor` anywhere it's expected. `CheckoutService` works correctly with any processor.
+
+### I — Interface Segregation Principle (ISP)
+Clients should not be forced to depend on interfaces they don't use. Prefer small, focused interfaces.
+
+**In this project:**
+- `PaymentProcessor` declares only `processPayment`.
+- `Refundable` is a separate interface for refund capability.
+- A processor that doesn't support refunds simply doesn't implement `Refundable`; it isn't forced to provide an unused method.
+
+### D — Dependency Inversion Principle (DIP)
+High-level modules should not depend on low-level modules. Both should depend on abstractions.
+
+**In this project:**
+- `CheckoutService` (high-level) depends on the `PaymentProcessor` interface (abstraction), not on `CardPaymentProcessor` or `UpiPaymentProcessor` (low-level).
+- Concrete processors are injected at runtime, making the service flexible and testable.
+
+---
 
 High-level architecture & design decisions
 
