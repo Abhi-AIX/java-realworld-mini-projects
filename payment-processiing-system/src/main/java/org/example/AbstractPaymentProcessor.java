@@ -24,6 +24,5 @@ public abstract class AbstractPaymentProcessor implements PaymentProcessor {
 
     protected void log(double amount){
         System.out.println("Processing payment of $" + amount);
-        System.out.println("Class = " + this.getClass().getName());
     }
 }
