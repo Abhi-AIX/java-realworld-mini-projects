@@ -1,4 +1,4 @@
-# payment-processiing-system
+# payment-processing-system
 
 Checklist
 - [x] Add `README.md` to repo root
